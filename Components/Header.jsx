@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/solid";
 const Header = () => {
   return (
-    <div className="flex justify-between px-3 md:px-10 w-full  items-center h-20 border">
+    <div className="flex justify-between px-3 md:px-10 w-full  items-center h-20 shadow-lg">
       <div className="hidden sm:block">
         <Image
           src="https://links.papareact.com/qd3"
