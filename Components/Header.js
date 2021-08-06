@@ -26,7 +26,7 @@ const Header = () => {
     <div
       className={`${
         isScrolled ? "bg-white" : "bg-gray-50"
-      } sticky top-0 z-50 grid grid-cols-3 px-5 md:px-8 w-full py-5 shadow-lg h-auto`}
+      } sticky top-0 z-50 grid grid-cols-3 px-5 md:px-8 w-full py-5 md:py-0 shadow-lg h-auto`}
     >
       <div className="hidden md:block">
         <Image

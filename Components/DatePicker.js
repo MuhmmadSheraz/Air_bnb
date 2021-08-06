@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DateRangePicker } from "react-date-range";
+import { DateRangePicker, DateRange } from "react-date-range";
 import { UsersIcon } from "@heroicons/react/solid";
 const Calender = ({ handleReset }) => {
   const [startDate, setStartDate] = useState(new Date());
@@ -18,16 +18,24 @@ const Calender = ({ handleReset }) => {
 
   return (
     <div
-      className={
-        "flex flex-col col-span-3 items-center mx-auto mb-5 mt-3 flex-grow "
-      }
+      className={"flex flex-col col-span-3 items-center mx-auto mb-5 mt-3  "}
     >
-      <DateRangePicker
-        ranges={[selectionRange]}
-        onChange={handleChange}
-        rangeColors={["#FD5B61"]}
-        minDate={new Date()}
-      />
+      <div className="hidden sm:block">
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={handleChange}
+          rangeColors={["#FD5B61"]}
+          minDate={new Date()}
+        />
+      </div>
+      <div className="block sm:hidden">
+        <DateRange
+          ranges={[selectionRange]}
+          onChange={handleChange}
+          rangeColors={["#FD5B61"]}
+          minDate={new Date()}
+        />
+      </div>
       <div className="flex items-center border-b my-2 pb-2 w-full">
         <h1 className="flex-grow text-xl font-semibold">Number of guests</h1>
         <UsersIcon className="h-6" />
