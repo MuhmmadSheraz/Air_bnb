@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { DateRangePicker, DateRange } from "react-date-range";
 import { UsersIcon } from "@heroicons/react/solid";
-const Calender = ({ handleReset }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [peoples, setPeoples] = useState(1);
+const Calender = ({
+  handleReset,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  peoples,
+  setPeoples,
+  handleSearchRedirect
+}) => {
   const selectionRange = {
     startDate,
     endDate,
     key: "selection",
   };
   const handleChange = (range) => {
-    console.log(range);
     setStartDate(range?.selection.startDate);
     setEndDate(range?.selection.endDate);
   };
@@ -42,7 +47,7 @@ const Calender = ({ handleReset }) => {
         <input
           type="number"
           min="1"
-          className="w-12 px-2 mr-2 text-lg outline-none text-red-400 "
+          className="w-12 px-1 mx-5 text-lg outline-none text-red-400 bg-transparent "
           value={peoples}
           onChange={(e) => setPeoples(e.target.value)}
         />
@@ -51,7 +56,7 @@ const Calender = ({ handleReset }) => {
         <button className="text-gray-500" onClick={handleReset}>
           Cancel
         </button>
-        <button className="text-red-400">Search</button>
+        <button className="text-red-400" onClick={handleSearchRedirect}>Search</button>
       </div>
     </div>
   );

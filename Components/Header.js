@@ -5,13 +5,18 @@ import {
   MenuIcon,
   UserCircleIcon,
   SearchIcon,
-  UsersIcon,
 } from "@heroicons/react/solid";
 import DatePicker from "../Components/DatePicker";
-const Header = () => {
+import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
+const Header = ({ placeholder }) => {
   const [isScrolled, setIsScrolled] = useState("");
   const [input, setInput] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [peoples, setPeoples] = useState(1);
 
+  const router = useRouter();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
   }, [isScrolled]);
@@ -19,8 +24,20 @@ const Header = () => {
     window.scrollY > 120 ? setIsScrolled(true) : setIsScrolled(false);
   };
   const handleReset = () => {
-    
     setInput("");
+  };
+  const handleSearchRedirect = () => {
+    
+    router.push({
+      pathname: "/search",
+      query: {
+        location: input,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        peoples,
+      },
+    });
+    setInput("")
   };
   return (
     <div
@@ -28,26 +45,32 @@ const Header = () => {
         isScrolled ? "bg-white" : "bg-gray-50"
       } sticky top-0 z-50 grid grid-cols-3 px-5 md:px-8 w-full py-5 md:py-0 shadow-lg h-auto`}
     >
-      <div className="hidden md:block">
-        <Image
-          src="https://links.papareact.com/qd3"
-          alt="air bnb logo"
-          height="100"
-          width="100"
-          objectFit="contain"
-          objectPosition="left"
-        />
-      </div>
+      <Link href="/">
+        <div className="hidden md:block" onClick={() => router.push("/")}>
+          <Image
+            src="https://links.papareact.com/qd3"
+            alt="air bnb logo"
+            height="100"
+            width="100"
+            objectFit="contain"
+            objectPosition="left"
+            className="cursor-pointer"
+          />
+        </div>
+      </Link>
       <div className=" flex items-center justify-center w-full col-span-2 md:col-span-1  ">
         <input
           type="text"
           className="border hover:shadow-md focus:shadow-md w-full p-3 px-4  rounded-full outline-none"
-          placeholder="Search here"
+          placeholder={placeholder ? placeholder : "Search here"}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
         <div className="-ml-10">
-          <SearchIcon className="cursor-pointer h-8 items-center text-white bg-red-400 p-2 rounded-full " />
+          <SearchIcon
+            onClick={handleSearchRedirect}
+            className="cursor-pointer h-8 items-center text-white bg-red-400 p-2 rounded-full "
+          />
         </div>
       </div>
       <div className="flex  justify-end col-span-1  w-full items-center  md:space-x-8">
@@ -60,7 +83,20 @@ const Header = () => {
           <UserCircleIcon className="h-3 sm:h-6 text-gray-400 cursor-pointer" />
         </div>
       </div>
-      {input.length ? <DatePicker handleReset={handleReset} /> : ""}
+      {input.length ? (
+        <DatePicker
+          handleReset={handleReset}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          peoples={peoples}
+          setPeoples={setPeoples}
+          handleSearchRedirect={handleSearchRedirect}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
