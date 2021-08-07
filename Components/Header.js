@@ -19,6 +19,7 @@ const Header = ({ placeholder }) => {
   const router = useRouter();
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    console.log(router)
   }, [isScrolled]);
   const handleScroll = () => {
     window.scrollY > 120 ? setIsScrolled(true) : setIsScrolled(false);
@@ -27,7 +28,6 @@ const Header = ({ placeholder }) => {
     setInput("");
   };
   const handleSearchRedirect = () => {
-    
     router.push({
       pathname: "/search",
       query: {
@@ -37,13 +37,14 @@ const Header = ({ placeholder }) => {
         peoples,
       },
     });
-    setInput("")
+    setInput("");
+    setIsScrolled(true)
   };
   return (
     <div
       className={`${
-        isScrolled ? "bg-white" : "bg-gray-50"
-      } sticky top-0 z-50 grid grid-cols-3 px-5 md:px-8 w-full py-5 md:py-0 shadow-lg h-auto`}
+        isScrolled || input.length||router?.pathname==="/search" ? "bg-white" : "bg-transparent"
+      } sticky top-0 z-50 grid grid-cols-3 px-5 md:px-8 w-full py-5 md:py-0 shadow-lg h-full`}
     >
       <Link href="/">
         <div className="hidden md:block" onClick={() => router.push("/")}>
@@ -74,7 +75,7 @@ const Header = ({ placeholder }) => {
         </div>
       </div>
       <div className="flex  justify-end col-span-1  w-full items-center  md:space-x-8">
-        <p className="text-gray-500  text-sm hover:bg-gray-600 p-1 cursor-pointer hover:text-gray-50 rounded-full ">
+        <p className="text-gray-500 hidden sm:block text-sm hover:bg-gray-600 p-1 cursor-pointer hover:text-gray-50 rounded-full ">
           Become a host
         </p>
         <GlobeAltIcon className="h-6 md:block hidden text-gray-400 cursor-pointer " />

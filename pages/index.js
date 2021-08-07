@@ -15,7 +15,7 @@ export default function Home({ exploreData, liveAnyWhereData }) {
       </Head>
       <Header />
       <Banner />
-      <main className="max-w-7xl mx-auto pt-5 px-8 sm:px-16">
+      <main className="max-w-7xl mx-auto pt-5 px-8 sm:px-16 -mt-40">
         {/* Expolre Nearby */}
         <section className="pt-6">
           <h1 className="text-4xl pb-8 font-semibold">Explore Nearby</h1>
