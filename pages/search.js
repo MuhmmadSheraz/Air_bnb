@@ -5,6 +5,7 @@ import Pill from "../Components/Pill";
 import { format } from "date-fns";
 import { useRouter } from "next/dist/client/router";
 import InfoCard from "../Components/InfoCard";
+import Map from "../Components/Map";
 const Search = ({ searchResults }) => {
   const {
     query: { peoples, startDate, endDate, location },
@@ -18,8 +19,8 @@ const Search = ({ searchResults }) => {
   return (
     <div>
       <Header placeholder={`${location} | ${range} | ${peoples}`} />
-      <main className="mx-4 sm:mx-10 md:mx-20">
-        <section className="pt-10 w-full">
+      <main className="mx-4  flex ">
+        <section className="pt-10 w-full flex-grow">
           <p className="text-sm">
             300+ Stays -{range} for {peoples} guests
           </p>
@@ -30,11 +31,14 @@ const Search = ({ searchResults }) => {
             <Pill title="Rooms and Beds" />
             <Pill title="More Filters" />
           </div>
-          <div className="last:pb-5">
+          <div className="flex flex-col  flex-grow last:pb-5 ">
             {searchResults?.map((result) => (
               <InfoCard data={result} />
             ))}
           </div>
+        </section>
+        <section className="h-[auto] w-1/2 sticky top-0 mt-10 pb-5 right-0 hidden lg:inline-block">
+          <Map searchResults={searchResults} />
         </section>
       </main>
       <Footer />

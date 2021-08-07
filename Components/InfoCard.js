@@ -6,7 +6,7 @@ const InfoCard = ({
 }) => {
   return (
     <div className="pt-5 h-[550px] sm:h-full  rounded-xl px-1 flex flex-col sm:flex-row w-full space-x-4 border-b hover:shadow-md transition transform duration-500 ease-out cursor-pointer hover:opacity-75">
-      <div className="relative h-64 sm:h-80 w-full sm:w-96 rounded-xl col-span-1 ">
+      <div className="relative h-64 w-full sm:w-96 rounded-xl col-span-1 ">
         <Image src={img} layout={"fill"} className="rounded-xl" />
       </div>
       <div className="py-3 space-y-3 relative w-full">
