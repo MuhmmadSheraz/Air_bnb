@@ -3,7 +3,7 @@ import React from "react";
 
 const LargeCard = ({ img, title, description, buttonText }) => {
   return (
-    <div className="relative pb-12 cursor-pointer sm:min-w-[300px]">
+    <div className="relative pb-12 cursor-pointer sm:min-w-[300px] hover:scale-105 transform transition duration-500">
       <div className="relative h-96">
         <Image
           src={img}
