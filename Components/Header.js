@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import {
-  GlobeAltIcon,
   MenuIcon,
   UserCircleIcon,
   SearchIcon,
-  LockClosedIcon,
   XIcon,
 } from "@heroicons/react/solid";
 import DatePicker from "../Components/DatePicker";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/client";
+
 const Header = ({ placeholder }) => {
+  const [session, loading] = useSession();
   const [isScrolled, setIsScrolled] = useState("");
   const [input, setInput] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [peoples, setPeoples] = useState(1);
   const [showSearchbar, setShowSearchbar] = useState(false);
-
+  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
   useEffect(() => {
+    console.log(session);
     window.addEventListener("scroll", handleScroll);
     console.log(router);
     router?.pathname === "/search" && setIsScrolled(true);
@@ -45,6 +47,20 @@ const Header = ({ placeholder }) => {
     setInput("");
     setIsScrolled(false);
   };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  const handleClickOutside = (e) => {
+    if (!menuRef.current?.contains(e.target)) {
+      setShowMenu(false);
+    }
+  };
+  const handleLogin = () => {
+    signIn();
+  };
+
+  const menuRef = useRef(null);
   return (
     <div
       className={`${
@@ -102,7 +118,6 @@ const Header = ({ placeholder }) => {
             </XIcon>
           </div>
         ) : (
-          // <>
           <div className=" items-center w-full flex-grow md:inline-flex hidden">
             <input
               type="text"
@@ -118,8 +133,6 @@ const Header = ({ placeholder }) => {
               />
             </div>
           </div>
-
-          // </>
         )}
       </div>
       {/* Right Side */}
@@ -132,24 +145,30 @@ const Header = ({ placeholder }) => {
               className="cursor-pointer h-7 items-center mr-2 text-white bg-red-400 p-2 rounded-full "
             />
           </div>
-          <p
-            className={`${
-              isScrolled ? "text-gray-500" : "text-white"
-            } hidden sm:block text-sm hover:bg-gray-600 p-1 cursor-pointer hover:text-gray-50 rounded-full `}
+
+          <div
+            className="flex justify-center w-full items-center border rounded-full p-2"
+            onClick={() => setShowMenu(!showMenu)}
           >
-            Become a host
-          </p>
-          <div className="flex justify-center items-center border rounded-full p-2">
             <MenuIcon
               className={`${
                 isScrolled ? "text-gray-500" : "text-white"
               } h-3 sm:h-6  cursor-pointer`}
             />
-            <UserCircleIcon
-              className={`${
-                isScrolled ? "text-gray-500" : "text-white"
-              } h-3 sm:h-6  cursor-pointer`}
-            />
+            {!session ? (
+              <UserCircleIcon
+                className={`${
+                  isScrolled ? "text-gray-500" : "text-white"
+                } h-3 sm:h-6  cursor-pointer`}
+              />
+            ) : (
+              <Image
+                src={session?.user?.image}
+                height={20}
+                width={20}
+                className="rounded-xl"
+              />
+            )}
           </div>
         </div>
       )}
@@ -166,6 +185,25 @@ const Header = ({ placeholder }) => {
         />
       ) : (
         ""
+      )}
+      {showMenu && (
+        <div
+          ref={menuRef}
+          className="bg-white shadow-xl border-gray-300 border z-50 absolute -right-5 sm:right-0 top-16 sm:top-20 mr-10 sm:w-1/2 md:w-2/12 rounded-lg  text-left"
+        >
+          <p
+            className="mx-5 py-2 text-gray-500 hover:text-black hover:border-b cursor-pointer"
+            onClick={session ? signOut : signIn}
+          >
+            {session ? "Sign Out" : "Sign In"}
+          </p>
+          <p className="mx-5 py-2 text-gray-500 hover:text-black hover:border-b cursor-pointer ">
+            Favourite
+          </p>
+          <p className="mx-5 py-2 text-gray-500 hover:text-black hover:border-b cursor-pointer ">
+            Become a host
+          </p>
+        </div>
       )}
     </div>
   );

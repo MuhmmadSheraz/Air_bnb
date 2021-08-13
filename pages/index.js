@@ -6,6 +6,7 @@ import LargeCard from "../Components/LargeCard";
 import MediumCard from "../Components/MediumCard";
 import SmallCards from "../Components/SmallCard";
 import Footer from "../Components/Footer";
+
 export default function Home({ exploreData, liveAnyWhereData }) {
   return (
     <div>

@@ -15,7 +15,9 @@ const LargeCard = ({ img, title, description, buttonText }) => {
       <div className="absolute top-32 left-5 md:left-12 w-64 md:w-80">
         <h3 className="text-xl sm:text-2xl font-semibold">{title}</h3>
         <p className="text-lg">{description}</p>
-        <button className="bg-black text-white p-2 px-3  rounded-lg mt-2">{buttonText}</button>
+        <button className="bg-black text-white p-2 px-3  rounded-lg mt-2">
+          {buttonText}
+        </button>
       </div>
     </div>
   );
